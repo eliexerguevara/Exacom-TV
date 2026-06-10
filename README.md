@@ -1,174 +1,174 @@
 # Exacom TV
 
 <p align="center">
-	<a href="docs/CHANGELOG.md"><img src="https://img.shields.io/badge/Changelog-View-2563eb?style=for-the-badge" alt="View changelog" /></a>
-	<a href="LICENSE"><img src="https://img.shields.io/badge/License-StreamVault_OSL-0284c7?style=for-the-badge" alt="License" /></a>
+	<a href="docs/CHANGELOG.md"><img src="https://img.shields.io/badge/Changelog-Ver-2563eb?style=for-the-badge" alt="Ver historial de cambios" /></a>
+	<a href="LICENSE"><img src="https://img.shields.io/badge/Licencia-StreamVault_OSL-0284c7?style=for-the-badge" alt="Licencia" /></a>
 </p>
 
-Exacom TV is a TV-first IPTV player for Android TV built with Kotlin, Jetpack Compose, Room, Hilt, and Media3.
+Exacom TV es un reproductor de IPTV pensado primero para Android TV, construido con Kotlin, Jetpack Compose, Room, Hilt y Media3.
 
-It is designed for large playlists, remote-friendly browsing, fast provider switching, and a polished living-room playback experience. Exacom TV supports `M3U` playlists, `Xtream Codes`, and `Stalker Portal` providers, with dedicated flows for `Live TV`, `Movies`, and `Series`.
+Está diseñado para listas de canales grandes, navegación cómoda con control remoto, cambio rápido entre proveedores y una experiencia de reproducción pulida desde el sofá. Exacom TV soporta proveedores `M3U`, `Xtream Codes` y `Stalker Portal`, con flujos dedicados para `TV en vivo`, `Películas` y `Series`.
 
-Built for Android TV first, Exacom TV focuses on the things generic IPTV apps usually get wrong: D-pad navigation, quick channel movement, large-library organization, and a player that still feels good to use from the couch. Phone and tablet installs are also supported, but the primary UX target is TV.
+Construido primero para Android TV, Exacom TV se enfoca en lo que las apps de IPTV genéricas suelen hacer mal: navegación con D-pad, cambio rápido de canal, organización de bibliotecas grandes, y un reproductor que se siente bien usar desde el control remoto. También se soportan instalaciones en celulares y tablets, pero el objetivo principal de la interfaz es TV.
 
-## Preview
+## Vista previa
 <p align="center">
-	<img src="docs/images/LiveTV.png" alt="Live TV" width="88%" />
-</p>
-
-<p align="center">
-	<img src="docs/images/Movies.png" alt="Movies" width="44%" />
-	<img src="docs/images/MovieInfo.png" alt="Movie Details" width="44%" />
+	<img src="docs/images/LiveTV.png" alt="TV en vivo" width="88%" />
 </p>
 
 <p align="center">
-	<img src="docs/images/Home.png" alt="Home" width="19%" />
-	<img src="docs/images/LiveTV.png" alt="Live TV" width="19%" />
-	<img src="docs/images/ChannelView.png" alt="Channel Preview" width="19%" />
-	<img src="docs/images/Guide.png" alt="Guide" width="19%" />
-	<img src="docs/images/Settings.png" alt="Settings" width="19%" />
+	<img src="docs/images/Movies.png" alt="Películas" width="44%" />
+	<img src="docs/images/MovieInfo.png" alt="Detalle de película" width="44%" />
 </p>
 
 <p align="center">
-	<img src="docs/images/SeriesEpisodes.png" alt="Series Episodes" width="32%" />
+	<img src="docs/images/Home.png" alt="Inicio" width="19%" />
+	<img src="docs/images/LiveTV.png" alt="TV en vivo" width="19%" />
+	<img src="docs/images/ChannelView.png" alt="Vista previa de canal" width="19%" />
+	<img src="docs/images/Guide.png" alt="Guía" width="19%" />
+	<img src="docs/images/Settings.png" alt="Ajustes" width="19%" />
 </p>
 
-## Highlights
+<p align="center">
+	<img src="docs/images/SeriesEpisodes.png" alt="Episodios de serie" width="32%" />
+</p>
 
-- Android TV-first interface with D-pad-friendly focus, navigation, and playback flows
-- Playlist support for `Xtream Codes`, `Stalker Portal`, and `M3U` sources, including local playlist files
-- Combined M3U live-source support with optional in-browser source switching for merged Live TV setups
-- Fast live-TV browsing with preview mode, favorites, recent channels, custom groups, and pinned categories
-- Movie and series libraries with detailed info pages, resume support, episode switching, and auto-play for next episodes
-- Full EPG support with guide search, XMLTV support, and provider archive or catch-up when available
-- Built-in DVR with scheduled recording, background capture, recording playback, and app-managed default storage
-- Multi-view split-screen playback for watching multiple channels at once
-- Plugin API for creating companion Android APKs that extend providers, playback, Cast URL handling, or configuration flows
-- Strong parental controls with PIN-protected categories and automatic adult-category detection
-- TV integrations including Watch Next, launcher recommendations, TV input sync, Cast support, and in-app update delivery
+## Lo más destacado
 
-## Features
+- Interfaz pensada primero para Android TV, con foco y navegación amigables para D-pad
+- Soporte de listas para `Xtream Codes`, `Stalker Portal` y fuentes `M3U`, incluyendo archivos de lista locales
+- Soporte de fuentes M3U combinadas, con cambio de fuente dentro del navegador para configuraciones de TV en vivo combinadas
+- Navegación rápida de TV en vivo con modo de vista previa, favoritos, canales recientes, grupos personalizados y categorías fijadas
+- Bibliotecas de películas y series con páginas de detalle, soporte de reanudación, cambio de episodios y reproducción automática del siguiente episodio
+- Soporte completo de guía EPG con búsqueda, soporte XMLTV y archivo o catch-up del proveedor cuando está disponible
+- DVR integrado con grabación programada, captura en segundo plano, reproducción de grabaciones y almacenamiento por defecto gestionado por la app
+- Reproducción en pantalla dividida (multi-vista) para ver varios canales a la vez
+- API de plugins para crear APKs complementarias que extiendan proveedores, reproducción, manejo de URLs de Cast o flujos de configuración
+- Controles parentales sólidos con categorías protegidas por PIN y detección automática de categorías para adultos
+- Integraciones de TV incluyendo Watch Next, recomendaciones del launcher, sincronización de TV Input, soporte de Cast y entrega de actualizaciones dentro de la app
 
-### Playlist Support
+## Funcionalidades
+
+### Soporte de listas
 
 - `Xtream Codes`
 - `Stalker Portal`
-- `M3U` playlists from URLs plus local files
-- Separate onboarding and sync flows for live channels, movies, series, and guide data
-- Fast switching between providers with provider-scoped settings
-- Combined M3U profiles for merging multiple M3U providers into a single Live TV source
+- Listas `M3U` desde URLs y también archivos locales
+- Flujos de configuración y sincronización separados para canales en vivo, películas, series y datos de guía
+- Cambio rápido entre proveedores con ajustes específicos por proveedor
+- Perfiles M3U combinados para fusionar varios proveedores M3U en una sola fuente de TV en vivo
 
-### Navigation And TV UX
+### Navegación e interfaz de TV
 
-- Designed for Android TV and D-pad navigation first
-- Fast channel browsing with large-playlist friendly layouts
-- Numeric remote input for direct channel entry
-- Preview mode while browsing channels
-- TV-friendly search and text-entry flows
+- Diseñado primero para Android TV y navegación con D-pad
+- Navegación rápida de canales con diseños aptos para listas grandes
+- Entrada numérica por control remoto para ir directo a un canal
+- Modo de vista previa mientras se navega entre canales
+- Flujos de búsqueda y entrada de texto adaptados a TV
 
-### Live TV And Channel Management
+### TV en vivo y gestión de canales
 
-- Favorites and recently watched channels
-- Custom groups for personal channel collections
-- Pinned categories surfaced near the top of the live guide rail
-- Optional Live TV provider or source browser for M3U-based setups
-- Long-press live categories for actions like pin, hide, lock or unlock, and custom-group management
-- Channel reordering for favorites and custom groups
-- Channel numbering modes by group or across the full provider lineup
-- Predefined filter words to make category search cleaner on noisy provider data
+- Favoritos y canales vistos recientemente
+- Grupos personalizados para colecciones de canales propias
+- Categorías fijadas que aparecen cerca del inicio del listado de TV en vivo
+- Navegador opcional de proveedores o fuentes de TV en vivo para configuraciones basadas en M3U
+- Mantener presionado sobre categorías en vivo para acciones como fijar, ocultar, bloquear o desbloquear, y gestión de grupos personalizados
+- Reordenamiento de canales en favoritos y grupos personalizados
+- Modos de numeración de canales por grupo o sobre todo el listado del proveedor
+- Palabras de filtro predefinidas para limpiar la búsqueda de categorías en datos de proveedores ruidosos
 
-### Guide, Search, And Playback
+### Guía, búsqueda y reproducción
 
-- Full EPG grid view
-- Program search inside the guide
-- XMLTV guide support with built-in EPG source management
-- Manual EPG match overrides and source-priority controls from inside Settings and Guide flows
-- Provider archive or catch-up support when the source exposes replay streams
-- Live rewind or timeshift playback with up to 30 minutes of buffer, even when provider catch-up is unavailable
-- Global search across live TV, movies, and series
-- Multi-view for watching multiple live streams at once
-- Player controls for subtitles, audio tracks, aspect ratio, playback speed, video quality, and Cast
+- Vista de cuadrícula EPG completa
+- Búsqueda de programas dentro de la guía
+- Soporte de guía XMLTV con gestión integrada de fuentes EPG
+- Ajustes manuales de coincidencia EPG y prioridad de fuentes desde Ajustes y la Guía
+- Soporte de archivo o catch-up del proveedor cuando la fuente expone streams de repetición
+- Reproducción con retroceso (timeshift) en vivo con hasta 30 minutos de buffer, incluso cuando el proveedor no ofrece catch-up
+- Búsqueda global en TV en vivo, películas y series
+- Multi-vista para ver varios streams en vivo a la vez
+- Controles del reproductor para subtítulos, pistas de audio, relación de aspecto, velocidad de reproducción, calidad de video y Cast
 
-### Recording And Playback
+### Grabación y reproducción
 
-- Scheduled and background DVR recording for live channels
-- Program reminders from guide entries when you want a notification without scheduling a recording
-- Conflict detection, persistence, and repair support for recording jobs
-- App-managed default recording folder with optional custom storage selection
-- In-app playback for completed recordings with a visible on-player recording indicator during active capture
-- Playback troubleshooting controls for decoder mode, media session behavior, and timeout tuning
-- Bundled Media3 FFmpeg audio fallback for unsupported audio codecs such as AC-3, E-AC-3, DTS, MP2, and TrueHD, with diagnostics and expert compatibility controls
+- Grabación DVR programada y en segundo plano para canales en vivo
+- Recordatorios de programas desde la guía cuando solo quieres una notificación sin programar una grabación
+- Detección de conflictos, persistencia y reparación de tareas de grabación
+- Carpeta de grabación por defecto gestionada por la app, con opción de almacenamiento personalizado
+- Reproducción dentro de la app de grabaciones completadas, con indicador visible de grabación activa en el reproductor
+- Controles de resolución de problemas de reproducción para modo de decodificador, comportamiento de la sesión multimedia y ajustes de tiempo de espera
+- Respaldo de audio con Media3 FFmpeg incluido para códecs de audio no soportados como AC-3, E-AC-3, DTS, MP2 y TrueHD, con diagnósticos y controles avanzados de compatibilidad
 
-### Movies And Series
+### Películas y series
 
-- Two VOD layouts:
-	- Modern shelf-based browsing
-	- Classic left-sidebar category browsing
-- Detailed info pages for movies and series
-- Continue watching, playback history, and detail-screen resume actions with saved position context
-- Long-press VOD categories and custom groups for actions like hide, rename, delete, or reorder when applicable
-- In-player episode switching for series
-- Automatic next-episode playback when another episode is available
+- Dos diseños de VOD:
+	- Navegación moderna por estanterías
+	- Navegación clásica por categorías en barra lateral izquierda
+- Páginas de detalle para películas y series
+- Continuar viendo, historial de reproducción y acciones de reanudación desde la pantalla de detalle, con contexto de posición guardada
+- Mantener presionado sobre categorías de VOD y grupos personalizados para acciones como ocultar, renombrar, eliminar o reordenar cuando aplica
+- Cambio de episodios dentro del reproductor para series
+- Reproducción automática del siguiente episodio cuando está disponible
 
-### Parental Controls
+### Controles parentales
 
-- Hide categories completely
-- Lock categories behind a PIN
-- Option to hide locked content from browsing views
-- Adult-category detection using provider flags and category naming heuristics
+- Ocultar categorías por completo
+- Bloquear categorías con PIN
+- Opción para ocultar contenido bloqueado de las vistas de navegación
+- Detección de categorías para adultos usando indicadores del proveedor y heurísticas de nombres de categoría
 
-### Languages And Device Support
+### Idiomas y soporte de dispositivos
 
-- English plus 25 translated locale packs currently ship with the app
-- Locale coverage is broader and rendering is more reliable across supported languages
-- Built for TV first; phones and tablets are supported, but not the primary design target
+- La app incluye actualmente inglés más 25 paquetes de idioma traducidos
+- La cobertura de idiomas es más amplia y la representación es más confiable en los idiomas soportados
+- Construido primero para TV; se soportan celulares y tablets, pero no son el objetivo principal de diseño
 
-### Platform Integrations
+### Integraciones de plataforma
 
-- Android TV Watch Next integration
-- Launcher recommendations and TV entry points
-- Android TV Input Framework channel sync
-- Google Cast sender support
+- Integración con Watch Next de Android TV
+- Recomendaciones del launcher y puntos de entrada de TV
+- Sincronización de canales con el Android TV Input Framework
+- Soporte de emisor de Google Cast
 
 ### Plugins
 
-- Exacom TV can be extended with companion Android APK plugins.
-- Plugin developers can expose provider, playback, Cast URL rewrite, and host-rendered or native configuration capabilities.
-- See the [Exacom TV Plugin API](docs/PLUGIN_API.md) docs to create compatible plugins.
+- Exacom TV se puede extender con APKs complementarias para Android.
+- Los desarrolladores de plugins pueden exponer capacidades de proveedor, reproducción, reescritura de URLs de Cast y configuración renderizada o nativa.
+- Consulta la documentación de la [API de Plugins de Exacom TV](docs/PLUGIN_API.md) para crear plugins compatibles.
 
-## Quick TV Tips
+## Tips rápidos para TV
 
-- Long-press a channel, movie, or series to add it to Favorites or a custom group.
-- Long-press a live category to open category actions such as pin, hide, lock or unlock, and custom-group actions like reorder.
-- In Movies and Series, long-press categories or custom groups for hide or group-management actions where available.
-- Long-press a live channel to queue it for Split Screen.
-- Use the number keys on a remote while in the player to jump directly to a channel.
-- While watching a series, open Episodes in the player to switch episodes without backing out to the details page.
+- Mantén presionado un canal, película o serie para agregarlo a Favoritos o a un grupo personalizado.
+- Mantén presionada una categoría en vivo para abrir acciones como fijar, ocultar, bloquear o desbloquear, y acciones de grupos personalizados como reordenar.
+- En Películas y Series, mantén presionadas categorías o grupos personalizados para acciones de ocultar o gestión de grupos cuando estén disponibles.
+- Mantén presionado un canal en vivo para ponerlo en cola en Pantalla Dividida.
+- Usa las teclas numéricas del control remoto dentro del reproductor para saltar directamente a un canal.
+- Mientras ves una serie, abre Episodios en el reproductor para cambiar de episodio sin salir a la pantalla de detalle.
 
-## Download
+## Descargas
 
-- The app can also detect and download newer releases in-app through GitHub Releases.
-- GitHub Actions runs build and test validation on pushes and pull requests.
-- GitHub Releases are published only when the workflow is started manually with `workflow_dispatch`, so versioned releases do not get created by mistake on every push.
+- La app también puede detectar y descargar nuevas versiones desde dentro de la app a través de GitHub Releases.
+- GitHub Actions ejecuta validación de build y pruebas en cada push y pull request.
+- Los GitHub Releases solo se publican cuando el workflow se inicia manualmente con `workflow_dispatch`, para que no se creen versiones por error en cada push.
 
-## Project Structure
+## Estructura del proyecto
 
-- `app/` Android app UI, navigation, dependency injection, and Android TV integrations
-- `data/` Room database, sync, parsing, provider implementations, and repositories
-- `domain/` models, repository contracts, managers, and use cases
-- `player/` playback abstraction and Media3 player implementation
-- `docs/` architecture notes, plugin API docs, and image assets
+- `app/` interfaz de la app Android, navegación, inyección de dependencias e integraciones de Android TV
+- `data/` base de datos Room, sincronización, parsing, implementaciones de proveedores y repositorios
+- `domain/` modelos, contratos de repositorio, managers y casos de uso
+- `player/` abstracción de reproducción e implementación del reproductor con Media3
+- `docs/` notas de arquitectura, documentación de la API de plugins y recursos de imágenes
 
-## Build
+## Compilación
 
-Requirements:
+Requisitos:
 
 - Android Studio
 - Android SDK
-- JDK 17 or another Gradle-supported JDK 17 runtime
-- Android NDK only if you want to rebuild the bundled Media3 FFmpeg extension locally
+- JDK 17 u otro runtime de JDK 17 compatible con Gradle
+- Android NDK solo si quieres recompilar localmente la extensión Media3 FFmpeg incluida
 
-Useful commands:
+Comandos útiles:
 
 ```bash
 ./gradlew assembleDebug
@@ -176,21 +176,21 @@ Useful commands:
 ./gradlew testDebugUnitTest
 ```
 
-## Notes
+## Notas
 
-- Exacom TV is an IPTV client, not a content provider.
-- Use only playlists, streams, and guide sources you are authorized to access.
-- Local configuration and signing files are intentionally excluded from git.
+- Exacom TV es un cliente de IPTV, no un proveedor de contenido.
+- Usa solo listas, streams y fuentes de guía a las que tengas autorización de acceso.
+- Los archivos de configuración local y de firma están intencionalmente excluidos del repositorio.
 
-## Credits
+## Créditos
 
-Exacom TV is a fork of, and based on, [StreamVault](https://github.com/Davidona/StreamVault-IPTV) by **David Nashash (Davidona)**.
+Exacom TV es un fork basado en [StreamVault](https://github.com/Davidona/StreamVault-IPTV), de **David Nashash (Davidona)**.
 
-- Original project: <https://github.com/Davidona/StreamVault-IPTV>
-- Support the original author: <https://ko-fi.com/davidona>
+- Proyecto original: <https://github.com/Davidona/StreamVault-IPTV>
+- Apoya al autor original: <https://ko-fi.com/davidona>
 
-## License
+## Licencia
 
-This project is a derivative of StreamVault and remains governed by the StreamVault Source-Available License (Non-Commercial), including its attribution, naming, share-alike, and non-commercial terms.
+Este proyecto es un derivado de StreamVault y se rige por la StreamVault Source-Available License (No Comercial), incluyendo sus términos de atribución, nomenclatura, copyleft (share-alike) y uso no comercial.
 
-Any use of this project must comply with the terms defined in the [LICENSE](LICENSE) file.
+Cualquier uso de este proyecto debe cumplir con los términos definidos en el archivo [LICENSE](LICENSE).
