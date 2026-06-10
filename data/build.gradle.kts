@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.streamvault.data"
+    namespace = "com.exacomtv.data"
     compileSdk = 36
 
     defaultConfig {
