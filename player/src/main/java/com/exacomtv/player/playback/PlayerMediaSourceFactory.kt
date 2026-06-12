@@ -39,7 +39,18 @@ private val TS_SUBTITLE_FORMATS: List<Format> = listOf(
 
 internal fun liveMpegTsExtractorsFactory(): DefaultExtractorsFactory =
     DefaultExtractorsFactory()
-        .setTsExtractorMode(TsExtractor.MODE_HLS)
+        // MODE_HLS makes TsExtractor.seek() unconditionally throw
+        // IllegalStateException (Preconditions.checkState(mode != MODE_HLS)),
+        // regardless of the requested position. ProgressiveMediaPeriod's
+        // ExtractingLoadable calls extractor.seek(loadable.position, ...)
+        // whenever it (re)starts reading a loadable, so with MODE_HLS every
+        // load attempt for a live .ts stream fails immediately with an
+        // UnexpectedLoaderException, forcing a full reconnect loop
+        // ("Retrying TS x/10" / repeated "new client started streaming" on the
+        // Xtream server). MODE_MULTI_PMT (the default) allows seek() to
+        // succeed for position 0 / matching positions, so playback can
+        // actually proceed and resume normally.
+        .setTsExtractorMode(TsExtractor.MODE_MULTI_PMT)
         .setTsExtractorFlags(
             DefaultTsPayloadReaderFactory.FLAG_DETECT_ACCESS_UNITS
                 or DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES
