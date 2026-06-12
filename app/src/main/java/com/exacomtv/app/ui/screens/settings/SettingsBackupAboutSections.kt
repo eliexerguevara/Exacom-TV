@@ -225,20 +225,16 @@ private fun BackupActionCard(
     }
 }
 
-internal fun LazyListScope.settingsAboutSection(
+internal fun LazyListScope.settingsUpdateSection(
     uiState: SettingsUiState,
     context: Context,
-    buildVerificationLabel: String,
     onOpenUri: (String) -> Unit,
     onCheckForUpdates: () -> Unit,
     onInstallDownloadedUpdate: () -> Unit,
     onDownloadLatestUpdate: () -> Unit,
     onSetAutoCheckAppUpdates: (Boolean) -> Unit,
     onSetAutoDownloadAppUpdates: (Boolean) -> Unit,
-    onRefreshDownloadState: () -> Unit,
-    onViewCrashReport: () -> Unit,
-    onShareCrashReport: () -> Unit,
-    onDeleteCrashReport: () -> Unit
+    onRefreshDownloadState: () -> Unit
 ) {
     item {
         val downloadStatus = uiState.appUpdate.downloadStatus
@@ -323,7 +319,17 @@ internal fun LazyListScope.settingsAboutSection(
             )
         }
     }
+}
 
+internal fun LazyListScope.settingsAboutSection(
+    uiState: SettingsUiState,
+    context: Context,
+    buildVerificationLabel: String,
+    onOpenUri: (String) -> Unit,
+    onViewCrashReport: () -> Unit,
+    onShareCrashReport: () -> Unit,
+    onDeleteCrashReport: () -> Unit
+) {
     item {
         SettingsSectionHeader(
             title = stringResource(R.string.settings_crash_reports_title),
@@ -365,21 +371,5 @@ internal fun LazyListScope.settingsAboutSection(
         SettingsRow(label = stringResource(R.string.settings_build), value = stringResource(R.string.settings_build_desc))
         SettingsRow(label = stringResource(R.string.settings_build_verification), value = buildVerificationLabel)
         SettingsRow(label = stringResource(R.string.settings_developed_by), value = stringResource(R.string.settings_developer_name))
-        ClickableSettingsRow(
-            label = stringResource(R.string.settings_github),
-            value = stringResource(R.string.settings_github_url),
-            onClick = { onOpenUri(context.getString(R.string.settings_github_url)) }
-        )
-        SettingsRow(label = stringResource(R.string.settings_based_on), value = stringResource(R.string.settings_based_on_value))
-        ClickableSettingsRow(
-            label = stringResource(R.string.settings_original_project),
-            value = stringResource(R.string.settings_original_project_url),
-            onClick = { onOpenUri(context.getString(R.string.settings_original_project_url)) }
-        )
-        ClickableSettingsRow(
-            label = stringResource(R.string.settings_donate),
-            value = stringResource(R.string.settings_donate_url),
-            onClick = { onOpenUri(context.getString(R.string.settings_donate_url)) }
-        )
     }
 }

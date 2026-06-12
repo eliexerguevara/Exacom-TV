@@ -549,6 +549,7 @@
     <string name="settings_buffer_duration">Buffer Duration</string>
     <string name="settings_buffer_5s">5 seconds</string>
     <string name="settings_about">About</string>
+    <string name="settings_update_tab">Update</string>
     <string name="settings_about_subtitle">Version, build, and support details for this installation.</string>
     <string name="settings_app_version">App Version</string>
     <string name="settings_build">Build</string>

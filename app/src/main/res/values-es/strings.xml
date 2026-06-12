@@ -410,6 +410,7 @@
     <string name="settings_buffer_duration">Duración del búfer</string>
     <string name="settings_buffer_5s">5 segundos</string>
     <string name="settings_about">Acerca de</string>
+    <string name="settings_update_tab">Actualizar</string>
     <string name="settings_about_subtitle">Detalles de versión, compilación y soporte de esta instalación.</string>
     <string name="settings_app_version">Versión de la app</string>
     <string name="settings_build">construir</string>

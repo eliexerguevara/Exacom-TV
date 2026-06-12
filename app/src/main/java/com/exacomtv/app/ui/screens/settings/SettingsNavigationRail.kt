@@ -63,6 +63,11 @@ internal fun SettingsNavigationRail(
             label = stringResource(R.string.settings_about),
             icon = "i",
             accent = Color(0xFF78909C)
+        ),
+        SettingsNavEntry(
+            label = stringResource(R.string.settings_update_tab),
+            icon = "↑",
+            accent = Color(0xFF66BB6A)
         )
     )
 

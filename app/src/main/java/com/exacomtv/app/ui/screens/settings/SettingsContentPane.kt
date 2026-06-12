@@ -158,15 +158,21 @@ internal fun SettingsContentPane(
                 context = context,
                 buildVerificationLabel = screenLabels.buildVerificationLabel,
                 onOpenUri = onOpenUri,
+                onViewCrashReport = onViewCrashReport,
+                onShareCrashReport = onShareCrashReport,
+                onDeleteCrashReport = onDeleteCrashReport
+            )
+        } else if (dialogState.selectedCategory == 7) {
+            settingsUpdateSection(
+                uiState = uiState,
+                context = context,
+                onOpenUri = onOpenUri,
                 onCheckForUpdates = viewModel::checkForAppUpdates,
                 onInstallDownloadedUpdate = viewModel::installDownloadedUpdate,
                 onDownloadLatestUpdate = viewModel::downloadLatestUpdate,
                 onSetAutoCheckAppUpdates = viewModel::setAutoCheckAppUpdates,
                 onSetAutoDownloadAppUpdates = viewModel::setAutoDownloadAppUpdates,
-                onRefreshDownloadState = viewModel::refreshDownloadState,
-                onViewCrashReport = onViewCrashReport,
-                onShareCrashReport = onShareCrashReport,
-                onDeleteCrashReport = onDeleteCrashReport
+                onRefreshDownloadState = viewModel::refreshDownloadState
             )
         }
     }
