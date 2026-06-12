@@ -12,10 +12,18 @@
     <string name="nav_plugins">Plugins</string>
 
     
+    <string name="language_select_title">Choose your language</string>
+    <string name="language_select_subtitle">You can change this later in Settings.</string>
+    <string name="language_option_english">English</string>
+    <string name="language_option_spanish">Español</string>
+
     <string name="welcome_enter_app">Enter App</string>
     <string name="welcome_manage_providers">Manage Providers</string>
-    <string name="welcome_setup_provider">Setup Provider</string>
+    <string name="welcome_setup_provider">Log In</string>
     <string name="welcome_setup_later">Set up later</string>
+    <string name="portal_login_title">Sign in to ExacomTV Portal</string>
+    <string name="portal_login_subtitle">Enter the username and password provided by your administrator to connect to the ExacomTV Portal.</string>
+    <string name="portal_login_button">Log In</string>
     <string name="welcome_version">v1.0.3</string>
     <string name="welcome_loading_title">Preparing your library</string>
     <string name="welcome_loading_subtitle">Opening the right screen for this device.</string>
@@ -1133,6 +1141,10 @@
     <string name="player_action_guide">Guide</string>
     <string name="player_action_split">Split</string>
     <string name="player_action_diagnostics">Diagnostics</string>
+    <string name="player_action_prev_channel">Prev</string>
+    <string name="player_action_next_channel">Next</string>
+    <string name="player_prev_channel_short">Previous</string>
+    <string name="player_next_channel_short">Next</string>
     <string name="player_diagnostics_title">Playback Diagnostics</string>
     <string name="player_diagnostics_provider">Provider</string>
     <string name="player_diagnostics_source">Source</string>

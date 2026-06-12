@@ -27,10 +27,12 @@ import com.exacomtv.app.ui.screens.home.HomeScreen
 import com.exacomtv.app.ui.screens.movies.MoviesScreen
 import com.exacomtv.app.ui.screens.player.PlayerScreen
 import com.exacomtv.app.ui.screens.plugins.PluginsScreen
+import com.exacomtv.app.ui.screens.portal.PortalLoginScreen
 import com.exacomtv.app.ui.screens.provider.ProviderSetupScreen
 import com.exacomtv.app.ui.screens.series.SeriesScreen
 import com.exacomtv.app.ui.screens.settings.SettingsScreen
 import com.exacomtv.app.ui.screens.welcome.WelcomeScreen
+import com.exacomtv.app.ui.screens.language.LanguageSelectionScreen
 import com.exacomtv.app.ui.screens.downloads.DownloadsScreen
 import com.exacomtv.app.MainActivity
 import com.exacomtv.domain.model.AppLandingDestination
@@ -65,6 +67,7 @@ data class PlayerNavigationRequest(
 ) : Serializable
 
 object Routes {
+    const val PORTAL_LOGIN = "portal_login"
     const val PROVIDER_SETUP = "provider_setup?providerId={providerId}&importUri={importUri}"
     const val HOME = "home"
     const val LIVE_TV = "live_tv"
@@ -83,6 +86,7 @@ object Routes {
     const val MOVIE_DETAIL = "movie_detail/{movieId}?returnRoute={returnRoute}"
     const val SERIES_DETAIL = "series_detail/{seriesId}?returnRoute={returnRoute}"
     const val WELCOME = "welcome"
+    const val LANGUAGE_SELECT = "language_select"
     const val PARENTAL_CONTROL_GROUPS = "parental_control_groups/{providerId}"
     const val MULTI_VIEW = "multi_view"
 
@@ -338,18 +342,38 @@ fun AppNavigation(mainActivity: MainActivity) {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.WELCOME
+        startDestination = Routes.LANGUAGE_SELECT
     ) {
+        composable(Routes.LANGUAGE_SELECT) {
+            LanguageSelectionScreen(
+                onLanguageSelected = dropUnlessResumed {
+                    navController.navigate(Routes.WELCOME) {
+                        popUpTo(Routes.LANGUAGE_SELECT) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Routes.WELCOME) {
             WelcomeScreen(
-                onNavigateToHome = dropUnlessResumed {
+                onNavigateToHome = {
                     navController.navigate(landingRoute) {
                         popUpTo(Routes.WELCOME) { inclusive = true }
                     }
                 },
                 onNavigateToSetup = dropUnlessResumed {
-                    navController.navigate(Routes.providerSetup()) {
+                    navController.navigate(Routes.PORTAL_LOGIN) {
                         popUpTo(Routes.WELCOME) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Routes.PORTAL_LOGIN) {
+            PortalLoginScreen(
+                onLoginSuccess = dropUnlessResumed {
+                    navController.navigate(landingRoute) {
+                        popUpTo(Routes.PORTAL_LOGIN) { inclusive = true }
                     }
                 }
             )
@@ -382,7 +406,7 @@ fun AppNavigation(mainActivity: MainActivity) {
             DashboardScreen(
                 onNavigate = { route -> tabNavigate(route) },
                 onAddProvider = dropUnlessResumed {
-                    navController.navigate(Routes.providerSetup(null))
+                    navController.navigate(Routes.PORTAL_LOGIN)
                 },
                 onRecentChannelClick = { channel, combinedProfileId ->
                     navController.navigateToPlayer(
@@ -587,7 +611,7 @@ fun AppNavigation(mainActivity: MainActivity) {
             SettingsScreen(
                 onNavigate = { route -> tabNavigate(route) },
                 onAddProvider = dropUnlessResumed {
-                    navController.navigate(Routes.providerSetup(null))
+                    navController.navigate(Routes.PORTAL_LOGIN)
                 },
                 onEditProvider = { provider ->
                     navController.navigateIfResumed(Routes.providerSetup(provider.id))

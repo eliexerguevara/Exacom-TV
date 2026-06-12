@@ -7,10 +7,18 @@
     <string name="nav_series">Serie</string>
     <string name="nav_epg">Guía</string>
     <string name="nav_settings">Ajustes</string>
+    <string name="language_select_title">Elige tu idioma</string>
+    <string name="language_select_subtitle">Puedes cambiarlo más adelante en Ajustes.</string>
+    <string name="language_option_english">English</string>
+    <string name="language_option_spanish">Español</string>
+
     <string name="welcome_enter_app">Entrar en la app</string>
     <string name="welcome_manage_providers">Administrar proveedores</string>
-    <string name="welcome_setup_provider">Configurar proveedor</string>
+    <string name="welcome_setup_provider">Iniciar sesión</string>
     <string name="welcome_setup_later">Configurar más adelante</string>
+    <string name="portal_login_title">Inicia sesión en ExacomTV Portal</string>
+    <string name="portal_login_subtitle">Ingresa el usuario y la contraseña que te proporcionó tu administrador para conectarte al ExacomTV Portal.</string>
+    <string name="portal_login_button">Iniciar sesión</string>
     <string name="welcome_version">v1.0.3</string>
     <string name="welcome_loading_title">Preparando tu biblioteca</string>
     
@@ -850,6 +858,10 @@
     <string name="player_action_guide">Guía</string>
     <string name="player_action_split">dividir</string>
     <string name="player_action_diagnostics">Diagnóstico</string>
+    <string name="player_action_prev_channel">Ant</string>
+    <string name="player_action_next_channel">Sig</string>
+    <string name="player_prev_channel_short">Anterior</string>
+    <string name="player_next_channel_short">Siguiente</string>
     <string name="player_diagnostics_title">Diagnóstico de reproducción</string>
     <string name="player_diagnostics_provider">Proveedor</string>
     <string name="player_diagnostics_source">Fuente</string>
