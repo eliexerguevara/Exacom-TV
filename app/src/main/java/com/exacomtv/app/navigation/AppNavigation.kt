@@ -361,7 +361,7 @@ fun AppNavigation(mainActivity: MainActivity) {
                         popUpTo(Routes.WELCOME) { inclusive = true }
                     }
                 },
-                onNavigateToSetup = dropUnlessResumed {
+                onNavigateToSetup = {
                     navController.navigate(Routes.PORTAL_LOGIN) {
                         popUpTo(Routes.WELCOME) { inclusive = true }
                     }

@@ -94,6 +94,7 @@ class PreferencesRepository @Inject constructor(
         val PARENTAL_PIN_SALT = stringPreferencesKey("parental_pin_salt")
         val DEFAULT_CATEGORY_ID = longPreferencesKey("default_category_id")
         val APP_LANGUAGE = stringPreferencesKey("app_language")
+        val LANGUAGE_SELECTED = booleanPreferencesKey("language_selected")
         val APP_LANDING_DESTINATION = stringPreferencesKey("app_landing_destination")
         val APP_TIME_FORMAT = stringPreferencesKey("app_time_format")
         val LIVE_TV_CHANNEL_MODE = stringPreferencesKey("live_tv_channel_mode")
@@ -1201,6 +1202,10 @@ class PreferencesRepository @Inject constructor(
         preferences[PreferencesKeys.APP_LANGUAGE] ?: "system"
     }
 
+    val languageSelected: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[PreferencesKeys.LANGUAGE_SELECTED] ?: false
+    }
+
     val remoteShortcutPreferences: Flow<RemoteShortcutPreferences> = context.dataStore.data.map { preferences ->
         decodeRemoteShortcutPreferences { profile, button ->
             preferences[stringPreferencesKey(remoteShortcutKey(profile, button))]
@@ -1210,6 +1215,12 @@ class PreferencesRepository @Inject constructor(
     suspend fun setAppLanguage(language: String) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.APP_LANGUAGE] = language
+        }
+    }
+
+    suspend fun setLanguageSelected(selected: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.LANGUAGE_SELECTED] = selected
         }
     }
 

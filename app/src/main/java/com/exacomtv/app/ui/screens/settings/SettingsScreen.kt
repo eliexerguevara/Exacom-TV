@@ -57,7 +57,6 @@ fun SettingsScreen(
         officialBuildStatus = officialBuildVerification.status
     )
     val dialogState = rememberSettingsScreenDialogState()
-    val providerState = rememberSettingsProviderSectionState(dialogState)
     var handledInitialBackupImportUri by remember { mutableStateOf<String?>(null) }
 
     val createDocumentLauncher = rememberLauncherForActivityResult(
@@ -141,7 +140,7 @@ fun SettingsScreen(
         val uri = initialBackupImportUri?.takeIf { it.isNotBlank() } ?: return@LaunchedEffect
         if (handledInitialBackupImportUri == uri) return@LaunchedEffect
         handledInitialBackupImportUri = uri
-        dialogState.selectedCategory = 5
+        dialogState.selectedCategory = 4
         viewModel.inspectBackup(uri)
     }
 
@@ -186,10 +185,6 @@ fun SettingsScreen(
                     context = context,
                     screenLabels = screenLabels,
                     dialogState = dialogState,
-                    providerState = providerState,
-                    onAddProvider = onAddProvider,
-                    onEditProvider = onEditProvider,
-                    onNavigateToParentalControl = onNavigateToParentalControl,
                     onChooseRecordingFolder = { recordingFolderLauncher.launch(null) },
                     onCreateBackup = { createDocumentLauncher.launch("exacomtv_backup.json") },
                     onShareBackup = ::shareBackup,

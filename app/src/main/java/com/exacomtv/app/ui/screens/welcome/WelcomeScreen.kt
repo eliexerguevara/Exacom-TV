@@ -1,17 +1,13 @@
 package com.exacomtv.app.ui.screens.welcome
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -23,13 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
@@ -38,7 +32,6 @@ import com.exacomtv.app.BuildConfig
 import com.exacomtv.app.R
 import com.exacomtv.app.ui.components.shell.StatusPill
 import com.exacomtv.app.ui.design.AppColors
-import com.exacomtv.app.ui.interaction.TvButton
 import com.exacomtv.data.sync.SyncProgressBus
 import com.exacomtv.domain.repository.ProviderRepository
 import com.exacomtv.domain.sync.Section
@@ -53,11 +46,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
+/** Where the Welcome screen should navigate once startup work has finished. */
+enum class WelcomeDestination { HOME, SETUP }
 
 @HiltViewModel
 class WelcomeViewModel @Inject constructor(
@@ -66,8 +60,8 @@ class WelcomeViewModel @Inject constructor(
     syncProgressBus: SyncProgressBus
 ) : ViewModel() {
 
-    private val _hasProviders = MutableStateFlow<Boolean?>(null)
-    val hasProviders: StateFlow<Boolean?> = _hasProviders.asStateFlow()
+    private val _destination = MutableStateFlow<WelcomeDestination?>(null)
+    val destination: StateFlow<WelcomeDestination?> = _destination.asStateFlow()
 
     private val acceptingProgress = MutableStateFlow(true)
 
@@ -79,15 +73,25 @@ class WelcomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             maybeSeedDevProvider()
-            providerRepository.getProviders()
-                .map { it.isNotEmpty() }
-                .collect { _hasProviders.value = it }
-        }
-        viewModelScope.launch {
-            _hasProviders
-                .filterNotNull()
-                .first()
+
+            val providers = providerRepository.getProviders().first()
+            if (providers.isEmpty()) {
+                acceptingProgress.value = false
+                _destination.value = WelcomeDestination.SETUP
+                return@launch
+            }
+
+            // Re-sync every configured provider on each app launch so newly
+            // added channels/VOD/series show up without requiring the user
+            // to manually trigger a sync from Settings.
+            for (provider in providers) {
+                runCatching {
+                    providerRepository.refreshProviderData(provider.id, force = false)
+                }
+            }
+
             acceptingProgress.value = false
+            _destination.value = WelcomeDestination.HOME
         }
     }
 
@@ -128,13 +132,13 @@ fun WelcomeScreen(
     onNavigateToSetup: () -> Unit,
     viewModel: WelcomeViewModel = hiltViewModel()
 ) {
-    val hasProviders by viewModel.hasProviders.collectAsStateWithLifecycle()
+    val destination by viewModel.destination.collectAsStateWithLifecycle()
     val syncProgress by viewModel.syncProgress.collectAsStateWithLifecycle()
 
-    LaunchedEffect(hasProviders) {
-        when (hasProviders) {
-            true -> onNavigateToHome()
-            false -> Unit
+    LaunchedEffect(destination) {
+        when (destination) {
+            WelcomeDestination.HOME -> onNavigateToHome()
+            WelcomeDestination.SETUP -> onNavigateToSetup()
             null -> Unit
         }
     }
@@ -154,22 +158,12 @@ fun WelcomeScreen(
                 )
         )
 
-        when (hasProviders) {
-            false -> WelcomeStartCard(
-                onNavigateToHome = onNavigateToHome,
-                onNavigateToSetup = onNavigateToSetup,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(32.dp)
-            )
-
-            else -> WelcomeLoadingCard(
-                syncProgress = syncProgress,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(32.dp)
-            )
-        }
+        WelcomeLoadingCard(
+            syncProgress = syncProgress,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(32.dp)
+        )
     }
 }
 
@@ -247,67 +241,6 @@ private fun WelcomeLoadingCard(
                     style = MaterialTheme.typography.labelLarge,
                     color = AppColors.TextSecondary
                 )
-            }
-        }
-    }
-}
-
-@Composable
-private fun WelcomeStartCard(
-    onNavigateToHome: () -> Unit,
-    onNavigateToSetup: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier
-            .widthIn(max = 720.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(28.dp),
-        colors = SurfaceDefaults.colors(containerColor = AppColors.Surface.copy(alpha = 0.9f))
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 40.dp, vertical = 34.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(18.dp)
-        ) {
-            StatusPill(
-                label = stringResource(R.string.app_name),
-                containerColor = AppColors.BrandMuted
-            )
-            Text(
-                text = stringResource(R.string.welcome_tagline),
-                style = MaterialTheme.typography.headlineMedium,
-                color = AppColors.TextPrimary,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = stringResource(R.string.welcome_subtitle),
-                style = MaterialTheme.typography.bodyLarge,
-                color = AppColors.TextSecondary,
-                textAlign = TextAlign.Center
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TvButton(
-                    onClick = onNavigateToSetup,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(text = stringResource(R.string.welcome_setup_provider))
-                }
-                TvButton(
-                    onClick = onNavigateToHome,
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.colors(
-                        containerColor = AppColors.SurfaceElevated,
-                        focusedContainerColor = Color.White,
-                        contentColor = AppColors.TextPrimary
-                    )
-                ) {
-                    Text(text = stringResource(R.string.welcome_setup_later))
-                }
             }
         }
     }

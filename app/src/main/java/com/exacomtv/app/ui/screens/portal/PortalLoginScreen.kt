@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -109,7 +113,9 @@ fun PortalLoginScreen(
             colors = SurfaceDefaults.colors(containerColor = AppColors.Surface.copy(alpha = 0.92f))
         ) {
             Column(
-                modifier = Modifier.padding(horizontal = 32.dp, vertical = 32.dp),
+                modifier = Modifier
+                    .padding(horizontal = 32.dp, vertical = 32.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -130,53 +136,49 @@ fun PortalLoginScreen(
                     textAlign = TextAlign.Center
                 )
 
-                OutlinedTextField(
-                    value = username,
-                    onValueChange = { username = it },
-                    label = { Text(stringResource(R.string.setup_user_hint)) },
-                    singleLine = true,
-                    enabled = !uiState.isLoading,
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
-                        keyboardType = KeyboardType.Ascii,
-                        imeAction = ImeAction.Next
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = AppColors.TextPrimary,
-                        unfocusedTextColor = AppColors.TextPrimary
+                Material3Theme(colorScheme = darkColorScheme()) {
+                    OutlinedTextField(
+                        value = username,
+                        onValueChange = { username = it },
+                        label = { Text(stringResource(R.string.setup_user_hint)) },
+                        singleLine = true,
+                        enabled = !uiState.isLoading,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrectEnabled = false,
+                            keyboardType = KeyboardType.Ascii,
+                            imeAction = ImeAction.Next
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = portalTextFieldColors()
                     )
-                )
 
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text(stringResource(R.string.setup_pass_hint)) },
-                    singleLine = true,
-                    enabled = !uiState.isLoading,
-                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    trailingIcon = {
-                        TextButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Text(
-                                text = if (passwordVisible) "Hide" else "Show",
-                                color = AppColors.TextSecondary,
-                                style = MaterialTheme.typography.labelSmall
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = AppColors.TextPrimary,
-                        unfocusedTextColor = AppColors.TextPrimary
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text(stringResource(R.string.setup_pass_hint)) },
+                        singleLine = true,
+                        enabled = !uiState.isLoading,
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrectEnabled = false,
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
+                        trailingIcon = {
+                            TextButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Text(
+                                    text = if (passwordVisible) "Hide" else "Show",
+                                    color = AppColors.TextSecondary,
+                                    style = MaterialTheme.typography.labelSmall
+                                )
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = portalTextFieldColors()
                     )
-                )
+                }
 
                 val errorMessage = uiState.validationError ?: uiState.error
                 if (errorMessage != null) {
@@ -194,7 +196,9 @@ fun PortalLoginScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.colors(
                         containerColor = AppColors.Brand,
-                        contentColor = Color.White
+                        contentColor = Color.White,
+                        disabledContainerColor = AppColors.Brand.copy(alpha = 0.35f),
+                        disabledContentColor = AppColors.TextPrimary.copy(alpha = 0.7f)
                     )
                 ) {
                     if (uiState.isLoading) {
@@ -211,3 +215,19 @@ fun PortalLoginScreen(
         }
     }
 }
+
+@Composable
+private fun portalTextFieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedTextColor = AppColors.TextPrimary,
+    unfocusedTextColor = AppColors.TextPrimary,
+    disabledTextColor = AppColors.TextSecondary,
+    focusedLabelColor = AppColors.TextPrimary,
+    unfocusedLabelColor = AppColors.TextSecondary,
+    disabledLabelColor = AppColors.TextSecondary,
+    cursorColor = AppColors.TextPrimary,
+    focusedBorderColor = AppColors.Brand,
+    unfocusedBorderColor = AppColors.Outline,
+    disabledBorderColor = AppColors.Outline,
+    focusedPlaceholderColor = AppColors.TextSecondary,
+    unfocusedPlaceholderColor = AppColors.TextSecondary
+)

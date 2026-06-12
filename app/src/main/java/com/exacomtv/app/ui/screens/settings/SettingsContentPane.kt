@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.exacomtv.domain.model.Provider
 
 @Composable
 internal fun SettingsContentPane(
@@ -18,10 +17,6 @@ internal fun SettingsContentPane(
     context: Context,
     screenLabels: SettingsScreenLabels,
     dialogState: SettingsScreenDialogState,
-    providerState: SettingsProviderSectionState,
-    onAddProvider: () -> Unit,
-    onEditProvider: (Provider) -> Unit,
-    onNavigateToParentalControl: (Long) -> Unit,
     onChooseRecordingFolder: () -> Unit,
     onCreateBackup: () -> Unit,
     onShareBackup: () -> Unit,
@@ -45,15 +40,6 @@ internal fun SettingsContentPane(
         userScrollEnabled = !uiState.isSyncing
     ) {
         if (dialogState.selectedCategory == 0) {
-            providerSection(
-                uiState = uiState,
-                onAddProvider = onAddProvider,
-                onEditProvider = onEditProvider,
-                onNavigateToParentalControl = onNavigateToParentalControl,
-                viewModel = viewModel,
-                providerState = providerState
-            )
-        } else if (dialogState.selectedCategory == 1) {
             settingsPlaybackSection(
                 uiState = uiState,
                 viewModel = viewModel,
@@ -101,7 +87,7 @@ internal fun SettingsContentPane(
                 onShowWifiQualityDialogChange = { dialogState.showWifiQualityDialog = it },
                 onShowEthernetQualityDialogChange = { dialogState.showEthernetQualityDialog = it }
             )
-        } else if (dialogState.selectedCategory == 2) {
+        } else if (dialogState.selectedCategory == 1) {
     settingsBrowsingSection(
         uiState = uiState,
         viewModel = viewModel,
@@ -127,7 +113,7 @@ internal fun SettingsContentPane(
                     dialogState.selectedRemoteShortcutTargetKey = it?.storageKey()
                 }
             )
-        } else if (dialogState.selectedCategory == 3) {
+        } else if (dialogState.selectedCategory == 2) {
             settingsPrivacySection(
                 uiState = uiState,
                 viewModel = viewModel,
@@ -137,7 +123,7 @@ internal fun SettingsContentPane(
                 onShowLevelDialogChange = { dialogState.showLevelDialog = it },
                 onShowClearHistoryDialogChange = { dialogState.showClearHistoryDialog = it }
             )
-        } else if (dialogState.selectedCategory == 4) {
+        } else if (dialogState.selectedCategory == 3) {
             settingsRecordingSection(
                 uiState = uiState,
                 viewModel = viewModel,
@@ -148,7 +134,7 @@ internal fun SettingsContentPane(
                 onShowRecordingPaddingDialogChange = { dialogState.showRecordingPaddingDialog = it },
                 onShowRecordingBrowserDialogChange = { dialogState.showRecordingBrowserDialog = it }
             )
-        } else if (dialogState.selectedCategory == 5) {
+        } else if (dialogState.selectedCategory == 4) {
             settingsBackupSection(
                 onCreateBackup = onCreateBackup,
                 onShareBackup = onShareBackup,
@@ -161,12 +147,12 @@ internal fun SettingsContentPane(
                 onPush = onDrivePush,
                 onPull = onDrivePull
             )
-        } else if (dialogState.selectedCategory == 6) {
+        } else if (dialogState.selectedCategory == 5) {
             epgSourcesSection(
                 uiState = uiState,
                 viewModel = viewModel
             )
-        } else if (dialogState.selectedCategory == 7) {
+        } else if (dialogState.selectedCategory == 6) {
             settingsAboutSection(
                 uiState = uiState,
                 context = context,
