@@ -271,7 +271,7 @@ private fun TopNavigationBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(72.dp)
                 .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -281,10 +281,10 @@ private fun TopNavigationBar(
                 contentDescription = stringResource(R.string.app_name),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .height(52.dp)
+                    .height(64.dp)
                     .wrapContentWidth(Alignment.Start)
             )
-            Spacer(modifier = Modifier.width(16.dp)) // Increased spacing to prevent overlap
+            Spacer(modifier = Modifier.width(8.dp)) // Increased spacing to prevent overlap
             Row(
                 modifier = Modifier
                     .weight(1f)
