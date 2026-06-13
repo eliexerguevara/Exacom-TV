@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,6 +52,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.heading
@@ -273,13 +276,15 @@ private fun TopNavigationBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.titleSmall,
-                color = AppColors.TextPrimary,
-                modifier = Modifier.wrapContentWidth(Alignment.Start)
+            Image(
+                painter = painterResource(R.drawable.ic_launcher_vault_art),
+                contentDescription = stringResource(R.string.app_name),
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .height(52.dp)
+                    .wrapContentWidth(Alignment.Start)
             )
-            Spacer(modifier = Modifier.width(32.dp)) // Increased spacing to prevent overlap
+            Spacer(modifier = Modifier.width(16.dp)) // Increased spacing to prevent overlap
             Row(
                 modifier = Modifier
                     .weight(1f)
