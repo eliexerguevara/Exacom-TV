@@ -69,6 +69,8 @@ import com.exacomtv.player.playback.StreamTypeResolver
 import com.exacomtv.player.playback.VideoStallDetector
 import com.exacomtv.player.playback.buildLiveTsFallbackStreamInfo
 import com.exacomtv.player.playback.hasEffectivePlaybackStarted
+import com.exacomtv.player.playback.bufferingStallThresholdMsFor
+import com.exacomtv.player.playback.stallInitialGraceMsFor
 import com.exacomtv.player.playback.shouldArmPlaybackStartedRecovery
 import com.exacomtv.player.playback.shouldFallbackMalformedHlsToLiveTs
 import com.exacomtv.player.playback.shouldFallbackStalledHlsToLiveTs
@@ -332,7 +334,9 @@ class Media3PlayerEngine @Inject constructor(
                     recoverPositionAdvancingReadyStalls =
                         shouldRecoverPositionAdvancingReadyStalls(currentResolvedStreamType),
                     recoverFrameSilentReadyStalls =
-                        shouldRecoverFrameSilentReadyStalls(currentResolvedStreamType)
+                        shouldRecoverFrameSilentReadyStalls(currentResolvedStreamType),
+                    initialGraceMsOverride = stallInitialGraceMsFor(currentResolvedStreamType),
+                    bufferingStallThresholdMsOverride = bufferingStallThresholdMsFor(currentResolvedStreamType)
                 )
                 _playerStats.value = _playerStats.value.copy(
                     lastVideoFrameAgoMs = videoStallDetector.lastVideoFrameAgoMs(),

@@ -1491,6 +1491,7 @@ fun PlayerScreen(
                     lastVisitedCategoryName = lastVisitedCategory?.name,
                     onDismiss = { viewModel.closeChannelInfoOverlay() },
                     onOverlayInteracted = viewModel::onLiveOverlayInteraction,
+                    onExitPlayer = onBack,
                     onOpenFullEpg = {
                         viewModel.closeChannelInfoOverlay()
                         viewModel.openEpgOverlay()
@@ -1533,6 +1534,8 @@ fun PlayerScreen(
                     currentAspectRatio = aspectRatio.modeName,
                     isDiagnosticsEnabled = showDiagnostics,
                     onOpenSplitScreen = { showSplitDialog = true },
+                    onPreviousChannel = { viewModel.playPrevious() },
+                    onNextChannel = { viewModel.playNext() },
                     subtitleTrackCount = availableSubtitleTracks.size,
                     audioTrackCount = availableAudioTracks.size,
                     videoQualityCount = availableVideoQualities.size,

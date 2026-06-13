@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets
 sealed class ExternalDestination : Serializable {
     data object Home : ExternalDestination()
     data object Plugins : ExternalDestination()
+    data object PortalLogin : ExternalDestination()
 
     data class ProviderSetup(
         val providerId: Long? = null,
@@ -26,6 +27,7 @@ sealed class ExternalDestination : Serializable {
     fun toRoute(): String = when (this) {
         Home -> Routes.HOME
         Plugins -> Routes.PLUGINS
+        PortalLogin -> Routes.PORTAL_LOGIN
         is ProviderSetup -> Routes.providerSetup(providerId = providerId, importUri = importUri)
         is MovieDetail -> Routes.movieDetail(movieId = movieId, returnRoute = returnRoute)
         is SeriesDetail -> Routes.seriesDetail(seriesId = seriesId, returnRoute = returnRoute)
@@ -39,6 +41,7 @@ sealed class ExternalDestination : Serializable {
             return when {
                 normalizedRoute == Routes.HOME -> Home
                 normalizedRoute == Routes.PLUGINS -> Plugins
+                normalizedRoute == Routes.PORTAL_LOGIN -> PortalLogin
                 normalizedRoute.startsWith(Routes.PROVIDER_SETUP.substringBefore('?')) -> {
                     val queryParameters = normalizedRoute.queryParameters()
                     val providerId = queryParameters["providerId"]

@@ -72,6 +72,7 @@ fun ChannelInfoOverlay(
     lastVisitedCategoryName: String?,
     onDismiss: () -> Unit,
     onOverlayInteracted: () -> Unit,
+    onExitPlayer: () -> Unit = {},
     onOpenFullEpg: () -> Unit,
     onOpenLastGroup: () -> Unit,
     currentRecordingStatus: RecordingStatus?,
@@ -92,6 +93,8 @@ fun ChannelInfoOverlay(
     currentAspectRatio: String,
     isDiagnosticsEnabled: Boolean,
     onOpenSplitScreen: () -> Unit = {},
+    onPreviousChannel: () -> Unit = {},
+    onNextChannel: () -> Unit = {},
     subtitleTrackCount: Int = 0,
     audioTrackCount: Int = 0,
     videoQualityCount: Int = 0,
@@ -380,6 +383,22 @@ fun ChannelInfoOverlay(
             ) {
                 item {
                     QuickActionButton(
+                        icon = "✕",
+                        label = stringResource(R.string.player_exit_short),
+                        onClick = {
+                            expandedPanel = null
+                            onDismiss()
+                            onExitPlayer()
+                        },
+                        onInteraction = { handleMainActionFocus(null) },
+                        colors = ClickableSurfaceDefaults.colors(
+                            containerColor = AppColors.Live.copy(alpha = 0.22f),
+                            focusedContainerColor = AppColors.Live.copy(alpha = 0.85f)
+                        )
+                    )
+                }
+                item {
+                    QuickActionButton(
                         icon = if (showTimeshiftControls) "DVR" else stringResource(R.string.player_action_playback),
                         label = if (showTimeshiftControls) {
                             stringResource(R.string.player_live_dvr_controls)
@@ -419,6 +438,28 @@ fun ChannelInfoOverlay(
                         icon = stringResource(R.string.player_action_mute),
                         label = if (isMuted) stringResource(R.string.player_unmute) else stringResource(R.string.player_mute),
                         onClick = onToggleMute,
+                        onInteraction = { handleMainActionFocus(null) }
+                    )
+                }
+                item {
+                    QuickActionButton(
+                        icon = stringResource(R.string.player_action_prev_channel),
+                        label = stringResource(R.string.player_prev_channel_short),
+                        onClick = {
+                            expandedPanel = null
+                            onPreviousChannel()
+                        },
+                        onInteraction = { handleMainActionFocus(null) }
+                    )
+                }
+                item {
+                    QuickActionButton(
+                        icon = stringResource(R.string.player_action_next_channel),
+                        label = stringResource(R.string.player_next_channel_short),
+                        onClick = {
+                            expandedPanel = null
+                            onNextChannel()
+                        },
                         onInteraction = { handleMainActionFocus(null) }
                     )
                 }
@@ -493,29 +534,6 @@ fun ChannelInfoOverlay(
                             expandedPanel = null
                             onDismiss()
                             onOpenFullEpg()
-                        },
-                        onInteraction = { handleMainActionFocus(null) }
-                    )
-                }
-                item {
-                    QuickActionButton(
-                        icon = stringResource(R.string.player_action_split),
-                        label = stringResource(R.string.player_multiview_short),
-                        onClick = {
-                            expandedPanel = null
-                            onDismiss()
-                            onOpenSplitScreen()
-                        },
-                        onInteraction = { handleMainActionFocus(null) }
-                    )
-                }
-                item {
-                    QuickActionButton(
-                        icon = stringResource(R.string.player_action_diagnostics),
-                        label = stringResource(R.string.player_stats),
-                        onClick = {
-                            expandedPanel = null
-                            onToggleDiagnostics()
                         },
                         onInteraction = { handleMainActionFocus(null) }
                     )

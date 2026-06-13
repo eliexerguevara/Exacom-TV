@@ -48,7 +48,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
@@ -836,44 +835,8 @@ private fun findActiveDestinationItem(
 private fun buildDestinationItems(): List<DestinationItem> = listOf(
     DestinationItem(Routes.HOME, R.string.nav_home, Icons.Default.Home),
     DestinationItem(Routes.LIVE_TV, R.string.nav_live_tv, Icons.Default.PlayArrow),
-    DestinationItem(Routes.MOVIES, R.string.nav_movies, Icons.Default.Star),
-    DestinationItem(Routes.SERIES, R.string.nav_series, Icons.Default.Menu),
-    DestinationItem(Routes.DOWNLOADS, R.string.nav_downloads, Icons.Default.Download),
     DestinationItem(Routes.EPG, R.string.nav_epg, Icons.Default.Info),
     DestinationItem(Routes.SEARCH, R.string.search_title, Icons.Default.Search),
-    DestinationItem(Routes.PLUGINS, R.string.nav_plugins, PluginBlocksIcon),
     DestinationItem(Routes.SETTINGS, R.string.nav_settings, Icons.Default.Settings)
 )
 
-private val PluginBlocksIcon: ImageVector
-    get() {
-        if (_pluginBlocksIcon != null) return _pluginBlocksIcon!!
-        _pluginBlocksIcon = ImageVector.Builder(
-            name = "PluginBlocks",
-            defaultWidth = 24.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 24f,
-            viewportHeight = 24f
-        ).apply {
-            path(fill = SolidColor(Color.Black)) {
-                moveTo(3f, 4f)
-                horizontalLineTo(10f)
-                verticalLineTo(11f)
-                horizontalLineTo(3f)
-                close()
-                moveTo(14f, 4f)
-                horizontalLineTo(21f)
-                verticalLineTo(11f)
-                horizontalLineTo(14f)
-                close()
-                moveTo(8.5f, 13f)
-                horizontalLineTo(15.5f)
-                verticalLineTo(20f)
-                horizontalLineTo(8.5f)
-                close()
-            }
-        }.build()
-        return _pluginBlocksIcon!!
-    }
-
-private var _pluginBlocksIcon: ImageVector? = null

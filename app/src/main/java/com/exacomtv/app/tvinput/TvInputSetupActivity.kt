@@ -74,7 +74,7 @@ class TvInputSetupActivity : ComponentActivity() {
                             Intent(this, MainActivity::class.java)
                                 .putExtra(
                                     MainActivity.EXTRA_EXTERNAL_DESTINATION,
-                                    ExternalDestination.ProviderSetup()
+                                    ExternalDestination.PortalLogin
                                 )
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         )

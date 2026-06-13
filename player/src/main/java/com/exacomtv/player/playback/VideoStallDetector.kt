@@ -53,9 +53,13 @@ class VideoStallDetector(
         recoverBufferingStalls: Boolean = false,
         recoverReadyStalls: Boolean = true,
         recoverPositionAdvancingReadyStalls: Boolean = true,
-        recoverFrameSilentReadyStalls: Boolean = false
+        recoverFrameSilentReadyStalls: Boolean = false,
+        initialGraceMsOverride: Long? = null,
+        bufferingStallThresholdMsOverride: Long? = null
     ): Boolean {
         val now = nowMs()
+        val effectiveInitialGraceMs = initialGraceMsOverride ?: initialGraceMs
+        val effectiveBufferingStallThresholdMs = bufferingStallThresholdMsOverride ?: bufferingStallThresholdMs
         val playbackRequested = isPlaying || playWhenReady
         val canEvaluateReadyStall = recoverReadyStalls && playbackState == PlaybackState.READY
         val canEvaluateBufferingStall = recoverBufferingStalls && playbackState == PlaybackState.BUFFERING
@@ -65,12 +69,12 @@ class VideoStallDetector(
             stalled = false
             return false
         }
-        if (now - startedAtMs < initialGraceMs) return false
+        if (now - startedAtMs < effectiveInitialGraceMs) return false
         if (canEvaluateBufferingStall) {
             val frameSilent = if (lastFrameAtMs <= 0L) {
-                now - startedAtMs >= bufferingStallThresholdMs
+                now - startedAtMs >= effectiveBufferingStallThresholdMs
             } else {
-                now - lastFrameAtMs >= bufferingStallThresholdMs
+                now - lastFrameAtMs >= effectiveBufferingStallThresholdMs
             }
             if (frameSilent && !stalled) {
                 stalled = true

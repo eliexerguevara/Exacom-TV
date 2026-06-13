@@ -1140,6 +1140,8 @@
     <string name="player_action_group">Group</string>
     <string name="player_action_recent_short">Recent</string>
     <string name="player_action_guide">Guide</string>
+    <string name="player_action_exit">Exit</string>
+    <string name="player_exit_short">Exit</string>
     <string name="player_action_split">Split</string>
     <string name="player_action_diagnostics">Diagnostics</string>
     <string name="player_action_prev_channel">Prev</string>

@@ -46,8 +46,6 @@ import com.exacomtv.app.R
 import com.exacomtv.app.ui.components.CategoryRow
 import com.exacomtv.app.ui.components.SearchInput
 import com.exacomtv.app.ui.components.ChannelCard
-import com.exacomtv.app.ui.components.MovieCard
-import com.exacomtv.app.ui.components.SeriesCard
 import com.exacomtv.app.ui.components.TvEmptyState
 import com.exacomtv.app.ui.components.shell.AppNavigationChrome
 import com.exacomtv.app.ui.components.shell.AppScreenScaffold
@@ -183,12 +181,8 @@ class SearchViewModel @Inject constructor(
                     channels = if (filterAdult)
                         results.channels.filterNot { it.isAdult || it.isUserProtected }
                     else results.channels,
-                    movies = if (filterAdult)
-                        results.movies.filterNot { it.isAdult || it.isUserProtected }
-                    else results.movies,
-                    series = if (filterAdult)
-                        results.series.filterNot { it.isAdult || it.isUserProtected }
-                    else results.series,
+                    movies = emptyList(),
+                    series = emptyList(),
                     isLoading = false,
                     hasSearched = true,
                     hasSearchError = results.isPartialResult,
@@ -314,23 +308,17 @@ private data class SearchFilterParams(
 
 enum class SearchTab(@get:StringRes val titleRes: Int) {
     ALL(R.string.search_all),
-    LIVE(R.string.search_live_tv),
-    MOVIES(R.string.search_movies),
-    SERIES(R.string.search_series)
+    LIVE(R.string.search_live_tv)
 }
 
 private fun SearchTab.toSearchScope(): SearchContentScope = when (this) {
     SearchTab.ALL -> SearchContentScope.ALL
     SearchTab.LIVE -> SearchContentScope.LIVE
-    SearchTab.MOVIES -> SearchContentScope.MOVIES
-    SearchTab.SERIES -> SearchContentScope.SERIES
 }
 
 private fun SearchTab.toSearchHistoryScope(): SearchHistoryScope = when (this) {
     SearchTab.ALL -> SearchHistoryScope.ALL
     SearchTab.LIVE -> SearchHistoryScope.LIVE
-    SearchTab.MOVIES -> SearchHistoryScope.MOVIE
-    SearchTab.SERIES -> SearchHistoryScope.SERIES
 }
 
 data class SearchUiState(
@@ -405,8 +393,6 @@ fun SearchScreen(
         showActionsDialog = true
     }
     val channelRows = remember(uiState.channels) { uiState.channels.chunked(4) }
-    val movieRows = remember(uiState.movies) { uiState.movies.chunked(6) }
-    val seriesRows = remember(uiState.series) { uiState.series.chunked(6) }
 
     fun isLocked(categoryId: Long?, isAdult: Boolean, isUserProtected: Boolean): Boolean {
         if (uiState.parentalControlLevel != 1) {
@@ -644,71 +630,12 @@ fun SearchScreen(
                             }
                         }
 
-                        if (uiState.movies.isNotEmpty()) {
-                            item {
-                                SearchResultRail(
-                                    title = stringResource(R.string.search_movies),
-                                    items = uiState.movies.take(18),
-                                    keySelector = { it.id }
-                                ) { movie ->
-                                    val movieLocked = isLocked(
-                                        categoryId = movie.categoryId,
-                                        isAdult = movie.isAdult,
-                                        isUserProtected = movie.isUserProtected
-                                    )
-                                    MovieCard(
-                                        movie = movie,
-                                        isLocked = movieLocked,
-                                        onClick = {
-                                            if (movieLocked) {
-                                                pendingMovie = movie
-                                                showPinDialog = true
-                                            } else {
-                                                onMovieClick(movie)
-                                            }
-                                        },
-                                        onLongClick = { showMovieActions(movie) }
-                                    )
-                                }
-                            }
-                        }
-
-                        if (uiState.series.isNotEmpty()) {
-                            item {
-                                SearchResultRail(
-                                    title = stringResource(R.string.search_series),
-                                    items = uiState.series.take(18),
-                                    keySelector = { it.id }
-                                ) { seriesItem ->
-                                    val seriesLocked = isLocked(
-                                        categoryId = seriesItem.categoryId,
-                                        isAdult = seriesItem.isAdult,
-                                        isUserProtected = seriesItem.isUserProtected
-                                    )
-                                    SeriesCard(
-                                        series = seriesItem,
-                                        isLocked = seriesLocked,
-                                        onClick = {
-                                            if (seriesLocked) {
-                                                pendingSeries = seriesItem
-                                                showPinDialog = true
-                                            } else {
-                                                onSeriesClick(seriesItem)
-                                            }
-                                        },
-                                        onLongClick = { showSeriesActions(seriesItem) }
-                                    )
-                                }
-                            }
-                        }
                     } else {
                         item {
                             SectionHeader(
                                 title = when (selectedTab) {
                                     SearchTab.ALL -> stringResource(R.string.search_all)
                                     SearchTab.LIVE -> stringResource(R.string.search_live_tv)
-                                    SearchTab.MOVIES -> stringResource(R.string.search_movies)
-                                    SearchTab.SERIES -> stringResource(R.string.search_series)
                                 }
                             )
                         }
@@ -738,54 +665,6 @@ fun SearchScreen(
                                         }
                                     },
                                     onChannelLongClick = { channel -> showChannelActions(channel) }
-                                )
-                            }
-
-                            SearchTab.MOVIES -> items(movieRows, key = { row ->
-                                row.joinToString("-") { it.id.toString() }
-                            }) { row ->
-                                SearchMovieGridRow(
-                                    movies = row,
-                                    isLocked = { movie ->
-                                        isLocked(
-                                            categoryId = movie.categoryId,
-                                            isAdult = movie.isAdult,
-                                            isUserProtected = movie.isUserProtected
-                                        )
-                                    },
-                                    onMovieClick = { movie, locked ->
-                                        if (locked) {
-                                            pendingMovie = movie
-                                            showPinDialog = true
-                                        } else {
-                                            onMovieClick(movie)
-                                        }
-                                    },
-                                    onMovieLongClick = { movie -> showMovieActions(movie) }
-                                )
-                            }
-
-                            SearchTab.SERIES -> items(seriesRows, key = { row ->
-                                row.joinToString("-") { it.id.toString() }
-                            }) { row ->
-                                SearchSeriesGridRow(
-                                    seriesItems = row,
-                                    isLocked = { seriesItem ->
-                                        isLocked(
-                                            categoryId = seriesItem.categoryId,
-                                            isAdult = seriesItem.isAdult,
-                                            isUserProtected = seriesItem.isUserProtected
-                                        )
-                                    },
-                                    onSeriesClick = { seriesItem, locked ->
-                                        if (locked) {
-                                            pendingSeries = seriesItem
-                                            showPinDialog = true
-                                        } else {
-                                            onSeriesClick(seriesItem)
-                                        }
-                                    },
-                                    onSeriesLongClick = { seriesItem -> showSeriesActions(seriesItem) }
                                 )
                             }
                         }
@@ -1053,53 +932,6 @@ private fun SearchChannelGridRow(
 }
 
 @Composable
-private fun SearchMovieGridRow(
-    movies: List<Movie>,
-    isLocked: (Movie) -> Boolean,
-    onMovieClick: (Movie, Boolean) -> Unit,
-    onMovieLongClick: (Movie) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        movies.forEach { movie ->
-            val locked = isLocked(movie)
-            MovieCard(
-                movie = movie,
-                isLocked = locked,
-                onClick = { onMovieClick(movie, locked) },
-                onLongClick = { onMovieLongClick(movie) }
-            )
-        }
-    }
-}
-
-@Composable
-private fun SearchSeriesGridRow(
-    seriesItems: List<Series>,
-    isLocked: (Series) -> Boolean,
-    onSeriesClick: (Series, Boolean) -> Unit,
-    onSeriesLongClick: (Series) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        seriesItems.forEach { seriesItem ->
-            val locked = isLocked(seriesItem)
-            SeriesCard(
-                series = seriesItem,
-                isLocked = locked,
-                onClick = { onSeriesClick(seriesItem, locked) },
-                onLongClick = { onSeriesLongClick(seriesItem) }
-            )
-        }
-    }
-}
-
-
-@Composable
 fun SectionHeader(title: String) {
     Text(
         text = title,
@@ -1117,9 +949,7 @@ private fun SearchResultsSummaryRow(
     uiState: SearchUiState
 ) {
     val countsSummary = listOf(
-        stringResource(R.string.search_results_count, stringResource(R.string.search_live_tv), uiState.channels.size),
-        stringResource(R.string.search_results_count, stringResource(R.string.search_movies), uiState.movies.size),
-        stringResource(R.string.search_results_count, stringResource(R.string.search_series), uiState.series.size)
+        stringResource(R.string.search_results_count, stringResource(R.string.search_live_tv), uiState.channels.size)
     ).joinToString("  •  ")
     Column(
         modifier = Modifier

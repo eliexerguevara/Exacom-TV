@@ -55,9 +55,7 @@ import com.exacomtv.app.navigation.Routes
 import com.exacomtv.app.ui.components.CategoryRow
 import com.exacomtv.app.ui.components.ChannelCard
 import com.exacomtv.app.ui.components.ContinueWatchingRow
-import com.exacomtv.app.ui.components.MovieCard
 import com.exacomtv.app.ui.components.rememberCrossfadeImageModel
-import com.exacomtv.app.ui.components.SeriesCard
 import com.exacomtv.app.ui.components.shell.AppNavigationChrome
 import com.exacomtv.app.ui.components.shell.AppHeroHeader
 import com.exacomtv.app.ui.components.shell.AppScreenScaffold
@@ -203,31 +201,6 @@ fun DashboardScreen(
                         items = uiState.continueWatching,
                         onItemClick = onPlaybackHistoryClick
                     )
-
-                    DashboardHomeSection.RECENT_MOVIES -> CategoryRow(
-                        title = stringResource(R.string.dashboard_recent_movies),
-                        items = uiState.recentMovies,
-                        keySelector = { it.id },
-                        onSeeAll = { onNavigate(Routes.MOVIES) }
-                    ) { movie ->
-                        MovieCard(
-                            movie = movie,
-                            onClick = { onMovieClick(movie) }
-                        )
-                    }
-
-                    DashboardHomeSection.RECENT_SERIES -> CategoryRow(
-                        title = stringResource(R.string.dashboard_recent_series),
-                        items = uiState.recentSeries,
-                        keySelector = { it.id },
-                        onSeeAll = { onNavigate(Routes.SERIES) }
-                    ) { series ->
-                        SeriesCard(
-                            series = series,
-                            subtitle = series.releaseDate ?: stringResource(R.string.dashboard_updated_series_badge),
-                            onClick = { onSeriesClick(series) }
-                        )
-                    }
                 }
             }
             }
@@ -785,17 +758,13 @@ private fun rememberDashboardSections(
         uiState.liveShortcuts,
         uiState.favoriteChannels,
         uiState.recentChannels,
-        uiState.continueWatching,
-        uiState.recentMovies,
-        uiState.recentSeries
+        uiState.continueWatching
     ) {
         val preferred = listOf(
             DashboardHomeSection.FAVORITE_CHANNELS,
             DashboardHomeSection.RECENT_CHANNELS,
             DashboardHomeSection.LIVE_SHORTCUTS,
-            DashboardHomeSection.CONTINUE_WATCHING,
-            DashboardHomeSection.RECENT_MOVIES,
-            DashboardHomeSection.RECENT_SERIES
+            DashboardHomeSection.CONTINUE_WATCHING
         )
 
         preferred.filter { section ->
@@ -804,8 +773,6 @@ private fun rememberDashboardSections(
                 DashboardHomeSection.FAVORITE_CHANNELS -> uiState.favoriteChannels.isNotEmpty()
                 DashboardHomeSection.RECENT_CHANNELS -> uiState.recentChannels.isNotEmpty()
                 DashboardHomeSection.CONTINUE_WATCHING -> uiState.continueWatching.isNotEmpty()
-                DashboardHomeSection.RECENT_MOVIES -> uiState.recentMovies.isNotEmpty()
-                DashboardHomeSection.RECENT_SERIES -> uiState.recentSeries.isNotEmpty()
             }
         }
     }
@@ -815,9 +782,7 @@ private enum class DashboardHomeSection {
     LIVE_SHORTCUTS,
     FAVORITE_CHANNELS,
     RECENT_CHANNELS,
-    CONTINUE_WATCHING,
-    RECENT_MOVIES,
-    RECENT_SERIES
+    CONTINUE_WATCHING
 }
 
 @Composable
