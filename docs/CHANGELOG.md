@@ -2,6 +2,22 @@
 
 All notable product changes are recorded in this document.
 
+## [1.0.14] - 2026-06-13
+
+### Added
+
+- Added a player exit button and rebranded the app with new icon and logo artwork, including a logo in the top navigation bar replacing the text app name.
+
+### Changed
+
+- Simplified the main navigation menu by removing the Movies, Series, Downloads, and Plugins tabs.
+- Increased the size of the logo shown in the top navigation bar for better visibility.
+
+### Fixed
+
+- Fixed live MPEG-TS streams getting stuck in a buffering/retry loop.
+- Fixed the playback error message shown for suspended or blocked accounts to clearly say the channel is out of service or the account is suspended and to contact support.
+
 ## [1.0.13] - 2026-06-06
 
 ### Added
