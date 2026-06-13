@@ -1,6 +1,10 @@
 # Exacom TV
 
 <p align="center">
+	<img src="docs/images/logo.png" height="160" alt="Exacom TV Logo" />
+</p>
+
+<p align="center">
 	<a href="docs/CHANGELOG.md"><img src="https://img.shields.io/badge/Changelog-Ver-2563eb?style=for-the-badge" alt="Ver historial de cambios" /></a>
 	<a href="LICENSE"><img src="https://img.shields.io/badge/Licencia-StreamVault_OSL-0284c7?style=for-the-badge" alt="Licencia" /></a>
 </p>
