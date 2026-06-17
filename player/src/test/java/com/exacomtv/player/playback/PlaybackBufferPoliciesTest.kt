@@ -39,11 +39,11 @@ class PlaybackBufferPoliciesTest {
         )
 
         assertThat(policy.label).isEqualTo("mpeg-ts-live")
-        assertThat(policy.minBufferMs).isEqualTo(5_000)
-        assertThat(policy.maxBufferMs).isEqualTo(10_000)
+        assertThat(policy.minBufferMs).isEqualTo(15_000)
+        assertThat(policy.maxBufferMs).isEqualTo(30_000)
         assertThat(policy.playbackBufferMs).isEqualTo(1_500)
         assertThat(policy.rebufferMs).isEqualTo(5_000)
-        assertThat(policy.targetBufferBytes).isEqualTo(16 * 1024 * 1024)
+        assertThat(policy.targetBufferBytes).isEqualTo(32 * 1024 * 1024)
         assertThat(policy.prioritizeTimeOverSizeThresholds).isTrue()
     }
 

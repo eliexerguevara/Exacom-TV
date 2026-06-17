@@ -12,9 +12,9 @@ internal data class PlaybackBufferPolicy(
 
 internal object PlaybackBufferPolicies {
     private const val DEFAULT_TARGET_BUFFER_BYTES = -1
-    private const val MPEG_TS_LIVE_TARGET_BUFFER_BYTES = 16 * 1024 * 1024
-    private const val MPEG_TS_LIVE_MIN_BUFFER_MS = 5_000
-    private const val MPEG_TS_LIVE_MAX_BUFFER_MS = 10_000
+    private const val MPEG_TS_LIVE_TARGET_BUFFER_BYTES = 32 * 1024 * 1024
+    private const val MPEG_TS_LIVE_MIN_BUFFER_MS = 15_000
+    private const val MPEG_TS_LIVE_MAX_BUFFER_MS = 30_000
     private const val LIVE_MIN_BUFFER_MS = 8_000
     private const val LIVE_MAX_BUFFER_MS = 30_000
     private const val COMPAT_LIVE_MIN_BUFFER_MS = 15_000
