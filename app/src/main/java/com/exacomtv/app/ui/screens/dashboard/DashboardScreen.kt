@@ -119,13 +119,14 @@ fun DashboardScreen(
             compactHeader = true,
             showScreenHeader = false
         ) {
-            if (provider == null) {
+            if (provider == null && !uiState.isLoading) {
                 EmptyDashboard(
                     onAddProvider = onAddProvider,
                     onOpenSettings = { onNavigate(Routes.SETTINGS) }
                 )
                 return@AppScreenScaffold
             }
+            if (provider == null) return@AppScreenScaffold
             val orderedSections = rememberDashboardSections(uiState)
 
             androidx.compose.foundation.lazy.LazyColumn(
