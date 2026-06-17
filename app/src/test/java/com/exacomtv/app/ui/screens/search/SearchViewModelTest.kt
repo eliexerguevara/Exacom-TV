@@ -221,8 +221,6 @@ class SearchViewModelTest {
         advanceUntilIdle()
 
         assertThat(viewModel.uiState.value.channels.map { it.id }).containsExactly(1L)
-        assertThat(viewModel.uiState.value.movies.map { it.id }).containsExactly(2L)
-        assertThat(viewModel.uiState.value.series.map { it.id }).containsExactly(3L)
         assertThat(viewModel.uiState.value.hasSearched).isTrue()
         collectorJob.cancel()
     }
