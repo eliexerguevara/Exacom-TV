@@ -29,6 +29,7 @@ internal fun SettingsContentPane(
     onDrivePush: () -> Unit,
     onDrivePull: () -> Unit,
     onOpenUri: (String) -> Unit,
+    onLogout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -175,5 +176,6 @@ internal fun SettingsContentPane(
                 onRefreshDownloadState = viewModel::refreshDownloadState
             )
         }
+        settingsLogoutSection(onLogout = onLogout)
     }
 }

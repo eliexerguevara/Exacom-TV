@@ -4216,7 +4216,7 @@ class SyncManager @Inject constructor(
         } catch (e: Exception) {
             Log.e(TAG, "External EPG resolution failed (non-fatal): ${sanitizeThrowableMessage(e)}")
             if (isRetryableEpgException(e)) hasRetryableFailure = true
-            warnings.add("External EPG source refresh/resolution failed.")
+            // EPG failure is non-fatal and retried automatically; suppress banner notification
         }
 
         return EpgSyncResult(warnings = warnings, hasRetryableFailure = hasRetryableFailure)

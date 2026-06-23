@@ -949,6 +949,20 @@ class SettingsViewModel @Inject constructor(
         providerActions.deleteProvider(viewModelScope, providerId, onSuccess)
     }
 
+    fun logout(onComplete: () -> Unit) {
+        val providers = _uiState.value.providers
+        if (providers.isEmpty()) {
+            onComplete()
+            return
+        }
+        viewModelScope.launch {
+            providers.forEach { provider ->
+                providerActions.deleteProvider(viewModelScope, provider.id)
+            }
+            onComplete()
+        }
+    }
+
     fun userMessageShown() {
         _uiState.update { it.copy(userMessage = null) }
     }

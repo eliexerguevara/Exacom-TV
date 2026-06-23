@@ -39,6 +39,7 @@ fun SettingsScreen(
     onAddProvider: () -> Unit = {},
     onEditProvider: (Provider) -> Unit = {},
     onNavigateToParentalControl: (Long) -> Unit = {},
+    onLogout: () -> Unit = {},
     currentRoute: String,
     initialBackupImportUri: String? = null,
     viewModel: SettingsViewModel = hiltViewModel()
@@ -201,6 +202,7 @@ fun SettingsScreen(
                     onDrivePush = viewModel::pushToDrive,
                     onDrivePull = viewModel::pullFromDrive,
                     onOpenUri = uriHandler::openUri,
+                    onLogout = { viewModel.logout(onLogout) },
                     modifier = Modifier.weight(1f)
                 )
             }

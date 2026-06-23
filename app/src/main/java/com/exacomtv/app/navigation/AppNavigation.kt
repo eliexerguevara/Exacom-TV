@@ -619,6 +619,11 @@ fun AppNavigation(mainActivity: MainActivity) {
                 onNavigateToParentalControl = { providerId ->
                     navController.navigateIfResumed(Routes.parentalControlGroups(providerId))
                 },
+                onLogout = {
+                    navController.navigate(Routes.PORTAL_LOGIN) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
                 currentRoute = Routes.SETTINGS,
                 initialBackupImportUri = backupUri
             )

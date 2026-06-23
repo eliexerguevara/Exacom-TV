@@ -373,3 +373,19 @@ internal fun LazyListScope.settingsAboutSection(
         SettingsRow(label = stringResource(R.string.settings_developed_by), value = stringResource(R.string.settings_developer_name))
     }
 }
+
+internal fun LazyListScope.settingsLogoutSection(
+    onLogout: () -> Unit
+) {
+    item {
+        SettingsSectionHeader(
+            title = "Sesión",
+            subtitle = "Cerrar la sesión actual de ExacomTV"
+        )
+        ClickableSettingsRow(
+            label = "Cerrar sesión",
+            value = "Salir y volver a la pantalla de inicio de sesión",
+            onClick = onLogout
+        )
+    }
+}
