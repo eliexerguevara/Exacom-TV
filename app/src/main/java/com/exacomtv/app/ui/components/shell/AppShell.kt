@@ -277,7 +277,7 @@ private fun TopNavigationBar(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Image(
-                painter = painterResource(R.drawable.ic_launcher_vault_art),
+                painter = painterResource(R.drawable.ic_etv_logo),
                 contentDescription = stringResource(R.string.app_name),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
